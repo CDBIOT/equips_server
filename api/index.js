@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const route = express.Router("./rotas_temps, ./mqtt");
+const Equips = require("../equips")
 
 require('dotenv').config()
 //const Temps = require('../temps')
@@ -29,14 +30,14 @@ mongoose.connect(MONGODB_URI).then(db =>
         
         //Model Temperaturas Dia Mes Ano
         
-        const Temps = mongoose.model('Temps',{
-            //_id: Number,
-            local: String  ,
-            temperatura: Number,
-            dia: Number,
-            mes: Number,
-            ano: Number
-        })
+// const Equips = mongoose.model('Equips',{
+//     //_id: Number,
+//     patrimonio: Number,
+//     equipamento: String,
+//     marca: String,
+//     modelo: String,
+//     serial: Number
+// })
         
 const cors = require('cors')
 
@@ -58,61 +59,33 @@ route.get('/', (req, res) =>{
 })
 
 //Read
-route.get('/temps', async (req, res) =>{
+route.get('/equips', async (req, res) =>{
     try{
-       const temps = await Temps.find()
-        res.status(200).json({temps})
+       const equips = await Equips.find()
+        res.status(200).json({equips})
     }catch(error){
         res.status(500).json({ message: "No Sucess!"})
     }  
 })
 
-route.get('/mqtt',(req, res) =>{
-    try{ 
-        date = new Date() 
-
-        var vm = {
-            //temp: temp,
-           // local: local,
-            dia: date.getDate(),   
-            mes: date.getMonth() + 1,
-            ano: date.getFullYear()
-        }
-        console.log(vm);
-        //res.send(vm);
-        res.status(200).json({vm})
-     }catch(error){
-         res.status(500).json(error)
-     }  
-    })
     
  //Create temps
- route.post('/temps', async (req, res) =>{
-    const {local, temperatura, dia, mes, ano } = req.body
+ route.post('/equips', async (req, res) =>{
+    const {patrimonio, equipamento, marca, modelo, serial } = req.body
        // const temps = req.params
-    const temps = {local,temperatura, dia, mes, ano}
-    const create_temp = new Temps(req.body);
+    const equips = {patrimonio, equipamento, marca, modelo, serial }
+    const create_equip = new Equips(req.body);
     //temps.save()
         try{
-            await Temps.create(temps)
+            await Equips.create(equips)
             //temps.save()
-            console.log(temps)
-            res.status(201).json({message: "Temperatura inserida"})
+            console.log(equips)
+            res.status(201).json({message: "Equipamento cadastrado com sucesso"})
             }catch(error){
             res.status(500).json({error: error})
         }  
     })
-    
-    
-    
-// route.use('/', express.static(__dirname + '/'))
-route.use('/mqtt_node2.js', express.static("/"))
 
-route.get("/mqtt_node2",function(req,res){
-   res.sendFile(__dirname + "/mqtt_node2.js");
-});
-
-    
 const PORT = process.env.PORT || 4000;
 
     app.listen(PORT,()=>{
