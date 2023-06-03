@@ -29,14 +29,14 @@ mongoose.connect(MONGODB_URI).then(db =>
         
 //Model Equipamentos
         
-// const Equips = mongoose.model('Equips',{
-//     //_id: Number,
-//     patrimonio: Number,
-//     equipamento: String,
-//     marca: String,
-//     modelo: String,
-//     serial: Number
-// })
+const Equips = mongoose.model('Equips',{
+    //_id: Number,
+    patrimonio: Number,
+    equipamento: String,
+    marca: String,
+    modelo: String,
+    serial: Number
+})
         
 const cors = require('cors')
 
