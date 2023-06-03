@@ -8,25 +8,6 @@ const Person = require('../user')
 require('dotenv').config()
 app.use (route)
 
-//Read
-//if(process.env.NODE_ENV == "production"){
-   // module.exports = 
-   //{
-    const MONGODB_URI= 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
-    +process.env.DB_NAME+'?retryWrites=true&w=majority'
-   // },
-   //{
-    useNewUrlParser: true,
-    //useUnifiedTopology: true
-    //}
-    //}
-
-mongoose.connect(MONGODB_URI).then(db => 
-    console.log("MongodB conectado com sucesso!", db.connection.host))
- .catch((err) => {
-    console.log("Houve um erro ao se conectar ao mongodB: " + err)
-})
-        
 //Model Equipamentos
         
 // const Equips = mongoose.model('Equips',{
