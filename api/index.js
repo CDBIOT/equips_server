@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const route = express.Router("./rotas_equips,./rotas_user, ./mqtt");
-const Equips = require("../equips")
-const Person = require('../user')
+const Equips = require("../db_equips")
+const Person = require('../db_user')
 
 require('dotenv').config()
 app.use (route)
