@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const route = express.Router("./rotas_temps, ./mqtt");
+const route = express.Router("./rotas_equips,./rotas_user, ./mqtt");
+const Equips = require("../equips")
+const Person = require('../user')
 
 require('dotenv').config()
-//const Temps = require('../temps')
 app.use (route)
 
 //Read
@@ -21,29 +22,28 @@ app.use (route)
     //}
 
 mongoose.connect(MONGODB_URI).then(db => 
-        console.log("MongodB conectado com sucesso!", db.connection.host))
+    console.log("MongodB conectado com sucesso!", db.connection.host))
+ .catch((err) => {
+    console.log("Houve um erro ao se conectar ao mongodB: " + err)
+})
         
-        .catch((err) => {
-            console.log("Houve um erro ao se conectar ao mongodB: " + err)
-        })
+//Model Equipamentos
         
-        //Model Temperaturas Dia Mes Ano
-        
-        const Temps = mongoose.model('Temps',{
-            //_id: Number,
-            local: String  ,
-            temperatura: Number,
-            dia: Number,
-            mes: Number,
-            ano: Number
-        })
+const Equips = mongoose.model('Equips',{
+    //_id: Number,
+    patrimonio: Number,
+    equipamento: String,
+    marca: String,
+    modelo: String,
+    serial: Number
+})
         
 const cors = require('cors')
 
 route.use(cors());
 
 route.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", 'https://iot-seven.vercel.app');
+    res.setHeader("Access-Control-Allow-Origin", 'https://equips-server.vercel.app');
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, X-Content-Type-Options:nosniff, Accept,Authorization");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     console.log('Cors habilitado')
@@ -53,49 +53,65 @@ route.use((req, res, next) => {
 route.get('/', (req, res) =>{
         res.json({
             sucess: true,
-            message: "Sucesso na conexão"
+            message: "Backend Equips_server ok!"
         })
 })
 
 //Read
-route.get('/temps', async (req, res) =>{
+route.get('/equips', async (req, res) =>{
     try{
-       const temps = await Temps.find()
-        res.status(200).json({temps})
+       const equips = await Equips.find()
+        res.status(200).json({equips})
     }catch(error){
-        res.status(500).json({ message: "No Sucess!"})
+        res.status(500).json({error: error})
     }  
 })
 
-route.get('/mqtt',(req, res) =>{
-    try{ 
-        date = new Date() 
+//Read 
+route.get('/user',checkToken, async (req, res) =>{
 
-        var vm = {
-            //temp: temp,
-           // local: local,
-            dia: date.getDate(),   
-            mes: date.getMonth() + 1,
-            ano: date.getFullYear()
-        }
-        console.log(vm);
-        //res.send(vm);
-        res.status(200).json({vm})
-     }catch(error){
-         res.status(500).json(error)
-     }  
+    try{
+        const people = await Person.find()
+        return res.status(200).json({people})
+    }catch(error){
+        res.status(500).json({error: error})
+    }  
+})
+
+ //Create
+ route.post('/user', async (req, res) =>{
+    const {nome, sobrenome, idade } = req.body
+    const person = {
+        nome,sobrenome,idade
+                    }
+    try{
+        await Person.create(person)
+        res.status(201).json({message: "Pessoa inserida com sucesso"})
+    }catch(error){
+        res.status(500).json({error: error})
+    }  
+})
+
+    
+ //Create temps
+ route.post('/equips', async (req, res) =>{
+    const {patrimonio, equipamento, marca, modelo, serial } = req.body
+       // const temps = req.params
+    const equips = {patrimonio, equipamento, marca, modelo, serial }
+    const create_equip = new Equips(req.body);
+    //temps.save()
+        try{
+            await Equips.create(equips)
+            //temps.save()
+            console.log(equips)
+            res.status(201).json({message: "Equipamento cadastrado com sucesso"})
+            }catch(error){
+            res.status(500).json({error: error})
+        }  
     })
-    
-// route.use('/', express.static(__dirname + '/'))
-route.use('/mqtt_node2.js', express.static("/"))
 
-route.get("/mqtt_node2",function(req,res){
-   res.sendFile(__dirname + "/mqtt_node2.js");
-});
-
-    
 const PORT = process.env.PORT || 4000;
 
     app.listen(PORT,()=>{
-        console.log("Servidor Rodando" + `${PORT}`);
+        console.log("Server Running => Port: " + `${PORT}`);
         })
