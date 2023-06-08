@@ -8,12 +8,11 @@ const Person = require('../db_user')
 require('dotenv').config()
 app.use (route)
 
-//Read
 //if(process.env.NODE_ENV == "production"){
    // module.exports = 
    //{
-   // const MONGODB_URI= 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
-   // +process.env.DB_NAME+'?retryWrites=true&w=majority'
+    const MONGODB_URI= 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
+    +process.env.DB_NAME+'?retryWrites=true&w=majority'
    // },
    //{
    // useNewUrlParser: true,
@@ -21,11 +20,15 @@ app.use (route)
     //}
     //}
 
-// mongoose.connect(MONGODB_URI).then(db => 
-//     console.log("MongodB conectado com sucesso!", db.connection.host))
-//  .catch((err) => {
-//     console.log("Houve um erro ao se conectar ao mongodB: " + err)
-// })
+mongoose.connect(MONGODB_URI,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }).then(db => 
+    console.log("MongodB conectado com sucesso!", db.connection.host))
+.catch((err) => {
+    console.log("Houve um erro ao se conectar ao mongodB: " + err)
+})
+        
         
 //Model Equipamentos
         
@@ -43,7 +46,7 @@ const cors = require('cors')
 route.use(cors());
 
 route.use((req, res, next) => {
-   // res.setHeader("Access-Control-Allow-Origin", 'https://equips-server.vercel.app');
+    res.setHeader("Access-Control-Allow-Origin", 'https://equips-server.vercel.app');
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, X-Content-Type-Options:nosniff, Accept,Authorization");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     console.log('Cors habilitado')
@@ -61,14 +64,14 @@ route.get('/', (req, res) =>{
 route.get('/equips', async (req, res) =>{
     try{
        const equips = await Equips.find()
-        res.status(200).json({equips})
+       return  res.status(200).json({equips})
     }catch(error){
         res.status(500).json({error: error})
     }  
 })
 
 //Read 
-route.get('/user',checkToken, async (req, res) =>{
+route.get('/user', async (req, res) =>{
 
     try{
         const people = await Person.find()
@@ -85,8 +88,8 @@ route.get('/user',checkToken, async (req, res) =>{
         nome,sobrenome,idade
                     }
     try{
-        await Person.create(person)
-        res.status(201).json({message: "Pessoa inserida com sucesso"})
+    await Person.create(person)
+    return  res.status(201).json({message: "Pessoa inserida com sucesso"})
     }catch(error){
         res.status(500).json({error: error})
     }  

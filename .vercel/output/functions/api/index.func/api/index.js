@@ -2,12 +2,34 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const route = express.Router("./rotas_equips,./rotas_user, ./mqtt");
-const Equips = require("../equips")
-const Person = require('../user')
+const Equips = require("../db_equips")
+const Person = require('../db_user')
 
 require('dotenv').config()
 app.use (route)
 
+//if(process.env.NODE_ENV == "production"){
+   // module.exports = 
+   //{
+    const MONGODB_URI= 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
+    +process.env.DB_NAME+'?retryWrites=true&w=majority'
+   // },
+   //{
+   // useNewUrlParser: true,
+    //useUnifiedTopology: true
+    //}
+    //}
+
+mongoose.connect(MONGODB_URI,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }).then(db => 
+    console.log("MongodB conectado com sucesso!", db.connection.host))
+.catch((err) => {
+    console.log("Houve um erro ao se conectar ao mongodB: " + err)
+})
+        
+        
 //Model Equipamentos
         
 // const Equips = mongoose.model('Equips',{
@@ -49,7 +71,7 @@ route.get('/equips', async (req, res) =>{
 })
 
 //Read 
-route.get('/user',checkToken, async (req, res) =>{
+route.get('/user', async (req, res) =>{
 
     try{
         const people = await Person.find()
