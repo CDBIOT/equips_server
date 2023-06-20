@@ -23,8 +23,10 @@ app.use (route)
 mongoose.connect(MONGODB_URI,{
     useNewUrlParser: true,
     useUnifiedTopology: true
-    }).then(db => 
-    console.log("MongodB conectado com sucesso!", db.connection.host))
+    }).then(() => 
+    {
+    return console.log("MongodB conectado com sucesso!", connection.host);
+        })
 .catch((err) => {
     console.log("Houve um erro ao se conectar ao mongodB: " + err)
 })
@@ -113,6 +115,11 @@ route.get('/user', async (req, res) =>{
         }  
     })
 
+app.use('/', express.static(__dirname + '/'))
+    
+app.get("/index.html",function(req,res){
+        res.sendFile(__dirname + "/index.html");
+    });
 const PORT = process.env.PORT || 4000;
 
     app.listen(PORT,()=>{
