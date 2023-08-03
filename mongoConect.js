@@ -4,6 +4,8 @@ require('dotenv').config()
 
 //Configuração do mongoose
 //const MONGODB_URI= "mondodb://localhost:27017"
+
+//MONGODB_URI =  'mongodb+srv://'+process.env.MONGODB_URI+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
 const MONGODB_URI= "mongodb+srv://cdb:abcdeF12345@cluster0.mvho6.mongodb.net/equipamentos"
 mongoose.connect(MONGODB_URI,{
     useNewUrlParser: true,
