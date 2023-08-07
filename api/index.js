@@ -1,12 +1,11 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const route = express.Router("./rotas_equips,./rotas_user, ./mqtt");
+const route = express.Router("./rotas_equips,./rotas_user ");
 const Equips = require("../db_equips")
 const Person = require('../db_user')
-
+const cors = require('cors')
 require('dotenv').config()
-app.use (route)
 
 //if(process.env.NODE_ENV == "production"){
    // module.exports = 
@@ -42,13 +41,12 @@ mongoose.connect(MONGODB_URI,{
 //     modelo: String,
 //     serial: Number
 // })
-        
-const cors = require('cors')
+   
 
 route.use(cors());
 
 route.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", 'https://equips-server.vercel.app');
+    res.setHeader("Access-Control-Allow-Origin","https://equip-vercel-theta.vercel.app");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, X-Content-Type-Options:nosniff, Accept,Authorization");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
     console.log('Cors habilitado')
