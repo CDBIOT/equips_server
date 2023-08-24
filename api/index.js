@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const route = express.Router("./rotas_equips, ./rotas_user ");
+const route = express.Router("../rotas_equips,../rotas_user");
 const Equips = require("../db_equips")
 const Person = require('../db_user')
 const cors = require('cors')
