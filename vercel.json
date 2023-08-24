@@ -1,5 +1,5 @@
 {
- 
+    "name": "equip-server",
     "version": 2,
     "public": true,
     "build":

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const route = express.Router("../rotas_equips,../rotas_user");
+const route = express.Router('../rotas_equips','../rotas_user');
 const Equips = require("../db_equips")
 const Person = require('../db_user')
 const cors = require('cors')
@@ -30,17 +30,6 @@ mongoose.connect(MONGODB_URI,{
     console.log("Houve um erro ao se conectar ao mongodB: " + err)
 })
         
-        
-//Model Equipamentos
-        
-// const Equips = mongoose.model('Equips',{
-//     //_id: Number,
-//     patrimonio: Number,
-//     equipamento: String,
-//     marca: String,
-//     modelo: String,
-//     serial: Number
-// })
    
 
 route.use(cors());
