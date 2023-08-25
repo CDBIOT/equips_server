@@ -2,49 +2,23 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const route = express.Router('../rotas_equips','../rotas_user');
-const Equips = require("../db_equips")
+const Equips = require('../db_equips')
 const Person = require('../db_user')
-const cors = require('cors')
+const db = require('../db_atlas','../mongoConect')
 require('dotenv').config()
-
-//if(process.env.NODE_ENV == "production"){
-   // module.exports = 
-   //{
-    const MONGODB_URI= 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
-    +process.env.DB_NAME+'?retryWrites=true&w=majority'
-   // },
-   //{
-   // useNewUrlParser: true,
-    //useUnifiedTopology: true
-    //}
-    //}
-
-mongoose.connect(MONGODB_URI,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-    }).then(() => 
-    {
-    return console.log("MongodB conectado com sucesso!", connection.host);
-        })
-.catch((err) => {
-    console.log("Houve um erro ao se conectar ao mongodB: " + err)
-})
-        
-   
-
+const cors = require('cors')
 route.use(cors());
 
 route.use((req, res, next) => {
-    console.log("Cors habilitado");
-    res.header("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Origin","https://equips-server.vercel.app");
     res.header("Access-Control-Allow-Header",'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     if (req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods','PUT, POST, PATCH, DELETE, GET');
-        res.status(200).send({})
+        res.header('Access-Control-Allow-Methods','GET,PUT, POST, PATCH, DELETE');
     }
-    
-    next();
-});
+    console.log("Cors habilitado");
+    next()
+})
 
 route.get('/', (req, res) =>{
         res.json({
@@ -105,12 +79,14 @@ route.get('/user', async (req, res) =>{
             res.status(500).json({error: error})
         }  
     })
-
+    
 app.use('/', express.static(__dirname + '/'))
     
 app.get("/index.html",function(req,res){
-        res.sendFile(__dirname + "/index.html");
-    });
+    res.sendFile(__dirname + "/index.html");
+});
+    
+
 const PORT = process.env.PORT || 4000;
 
     app.listen(PORT,()=>{
