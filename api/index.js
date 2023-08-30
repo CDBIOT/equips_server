@@ -1,30 +1,38 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-const route = express.Router('../rotas_equips','../rotas_user');
+const route = express.Router('../rotas_user');
 const Equips = require('../db_equips')
 const Person = require('../db_user')
 const db = require('../db_atlas','../mongoConect')
 require('dotenv').config()
+
 const cors = require('cors')
+  
+
 route.use(cors());
 
 route.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Origin","https://equips-server.vercel.app");
+    console.log("Cors habilitado");
+    res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Header",'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     if (req.method === 'OPTIONS'){
         res.header('Access-Control-Allow-Methods','GET,PUT, POST, PATCH, DELETE');
+        res.status(200).send({})
     }
-    console.log("Cors habilitado");
-    next()
-})
 
+    next()
+    })
+    
+//Read
 route.get('/', (req, res) =>{
+    try{
         res.json({
             sucess: true,
             message: "Backend Equips_server ok!"
-        })
+        })}catch(error){
+        res.status(500).json({error: error})
+    }
 })
 
 //Read
@@ -80,15 +88,15 @@ route.get('/user', async (req, res) =>{
         }  
     })
     
-app.use('/', express.static(__dirname + '/'))
+route.use('/', express.static(__dirname + '/'))
     
-app.get("/index.html",function(req,res){
+route.get("/index.html",function(req,res){
     res.sendFile(__dirname + "/index.html");
 });
     
 
 const PORT = process.env.PORT || 4000;
-
+app.use (route)
     app.listen(PORT,()=>{
         console.log("Server Running => Port: " + `${PORT}`);
         })

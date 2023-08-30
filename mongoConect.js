@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -21,7 +20,7 @@ mongoose.connect(MONGODB_URI,{
 //Banco de dados equipamentos
 //tabela inventario
 
-const inventario = mongoose.model('Inventario',{
+const Equips = mongoose.model('Inventario',{
     //_id: Number,
     PATRIMONIO : Number, 
     EQUIPAMENTO: String,
@@ -31,5 +30,5 @@ const inventario = mongoose.model('Inventario',{
     LOCALIZACAO: String
 })
 
-module.exports = inventario
+module.exports = Equips
 

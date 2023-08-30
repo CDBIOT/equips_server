@@ -1,16 +1,29 @@
-const mongoose = require('mongoose')
+if(process.env.NODE_ENV == "production"){
 
-//Configuração do mongoose
-//mongoose.Promise = global.Promise;
-MONGODB_URI =  'mongodb+srv://'+process.env.MONGODB_URI+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
-//+process.env.DB_NAME+'?retryWrites=true&w=majority'
-//const MONGODB_URI = db_atlas.MONGODB_URI
-//const MONGODB_URI = process.env.MONGODB_URI
+//     module.exports = 
+//    {
+    const MONGODB_URI = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@cluster0.mvho6.mongodb.net/'
+    +process.env.DB_NAME+'?retryWrites=true&w=majority'
+    //},
+  // {
+   // useNewUrlParser: true,
+    //useUnifiedTopology: true
+  //  },
+ //   }
 
-//try{
-mongoose.connect(MONGODB_URI).then(db => 
-console.log("MongodB conectado com sucesso!", db.connection.host))
+module.exports = {MONGODB_URI: "mongodb+srv://cdb:abcdeF12345@cluster0.mvho6.mongodb.net/equipamentos"},
+//module.exports = {URI: "https://polar-beyond-82520.herokuapp.com/"},
+{
+useNewUrlParser: true,
+useUnifiedTopology: true
+}
+}else{
+module.exports ={MONGODB_URI:"mongodb://localhost/equipamentos"},
+//module.exports ={URI: "http://127.0.0.1:8081/temps"}
+{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }
+}
 
-.catch((err) => {
-    console.log("Houve um erro ao se conectar ao mongodB: " + err)
-})
+
