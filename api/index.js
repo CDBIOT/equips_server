@@ -88,9 +88,9 @@ route.get('/user', async (req, res) =>{
         }  
     })
     
-route.use('/', express.static(__dirname + '/'))
+app.use('/', express.static(__dirname + '/'))
     
-route.get("/index.html",function(req,res){
+app.get("/index.html",function(req,res){
     res.sendFile(__dirname + "/index.html");
 });
     
