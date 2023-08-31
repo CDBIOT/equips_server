@@ -4,7 +4,8 @@ const mongoose = require('mongoose')
 const route = express.Router('../rotas_user');
 const Equips = require('../db_equips')
 const Person = require('../db_user')
-const db = require('../db_atlas','../mongoConect')
+const db = require('../mongoConect')
+
 require('dotenv').config()
 
 const cors = require('cors')
@@ -30,6 +31,7 @@ route.get('/', (req, res) =>{
         res.json({
             sucess: true,
             message: "Backend Equips_server ok!"
+          
         })}catch(error){
         res.status(500).json({error: error})
     }
@@ -88,11 +90,6 @@ route.get('/user', async (req, res) =>{
         }  
     })
     
-app.use('/', express.static(__dirname + '/'))
-    
-app.get("/index.html",function(req,res){
-    res.sendFile(__dirname + "/index.html");
-});
     
 
 const PORT = process.env.PORT || 4000;

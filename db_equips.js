@@ -13,7 +13,9 @@ const mongoose = require('mongoose')
     //}
     //}
 
-//Model Temperaturas Dia Mes Ano
+
+//Banco de dados equipamentos
+//tabela inventario
 
 const Equips = mongoose.model('Equips',{
     //_id: Number,
@@ -25,7 +27,6 @@ const Equips = mongoose.model('Equips',{
 })
 
 module.exports = Equips
-
 
 
 
