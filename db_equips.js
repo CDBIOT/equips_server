@@ -1,19 +1,6 @@
 const mongoose = require('mongoose')
 
-
-//Read
-//if(process.env.NODE_ENV == "production"){
-   // module.exports = 
-   //{
- 
-   // },
-   //{
-    //useNewUrlParser: true,
-    //useUnifiedTopology: true
-    //}
-    //}
-
-//Model Temperaturas Dia Mes Ano
+//Model Equipamentos
 
 const Equips = mongoose.model('Equips',{
     //_id: Number,
@@ -26,10 +13,5 @@ const Equips = mongoose.model('Equips',{
 
 module.exports = Equips
 
-
-
-
-
-
-
+        
 

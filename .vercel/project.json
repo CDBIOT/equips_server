@@ -1,15 +1,1 @@
-{
-  "projectId": "prj_m2rzXrc6Dk4xiUtstV7kGjhfcdYx",
-  "orgId": "BTLJCIiVUOfwucxtdopA7o15",
-  "settings": {
-    "createdAt": 1685211888617,
-    "framework": null,
-    "devCommand": null,
-    "installCommand": null,
-    "buildCommand": null,
-    "outputDirectory": null,
-    "rootDirectory": null,
-    "directoryListing": false,
-    "nodeVersion": "18.x"
-  }
-}
+{"projectId":"prj_RGoxsFeebgS8SC8L28P95ykfZCXg","orgId":"BTLJCIiVUOfwucxtdopA7o15"}
