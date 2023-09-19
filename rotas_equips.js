@@ -2,7 +2,7 @@
 const express = require('express');
 const Equips = require('./db_equips')
 
-//Read 
+//Read Equips
 const getEquips =(async (req, res) =>{
 
     try{
@@ -68,5 +68,6 @@ const putEquip = (async (req, res) =>{
 module.exports = {
     getEquips,
     postEquip,
-    deleteEquip
+    deleteEquip,
+    putEquip
 }
