@@ -9,6 +9,8 @@ const Person = require('../db_user')
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
+require('dotenv').config()
+
 app.use(bodyParser.json())
 app.use(
     bodyParser.urlencoded({
